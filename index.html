@@ -1,1 +1,787 @@
 
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GramSmart - गाँव का अपना बाज़ार</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f8f2;
+    color: #20352a;
+}
+
+header {
+    background: #146b43;
+    color: white;
+    padding: 18px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+header p {
+    margin-bottom: 0;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    background: white;
+    padding: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px #0001;
+}
+
+nav button {
+    padding: 11px 15px;
+    border: none;
+    background: #e5f3e8;
+    color: #146b43;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+nav button:hover {
+    background: #146b43;
+    color: white;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.hero {
+    background: linear-gradient(120deg, #d9f4df, #fff1ce);
+    padding: 35px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.hero h2 {
+    font-size: 36px;
+    color: #146b43;
+}
+
+button {
+    cursor: pointer;
+}
+
+.primary {
+    border: none;
+    background: #146b43;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.search {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd8ce;
+    border-radius: 8px;
+    margin: 5px 0 12px;
+}
+
+.search input {
+    margin: 0;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.categories button {
+    padding: 10px 14px;
+    border: 1px solid #c8ddcd;
+    background: white;
+    border-radius: 20px;
+}
+
+.categories button:hover {
+    background: #146b43;
+    color: white;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px #0000000c;
+    border: 1px solid #e4ebe4;
+}
+
+.product-image {
+    height: 130px;
+    background: #e9f5e8;
+    display: grid;
+    place-items: center;
+    font-size: 58px;
+    cursor: pointer;
+}
+
+.card-content {
+    padding: 13px;
+}
+
+.card h3 {
+    font-size: 16px;
+    min-height: 38px;
+    cursor: pointer;
+}
+
+.price {
+    color: #146b43;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.card button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 8px;
+    background: #146b43;
+    color: white;
+    font-weight: bold;
+}
+
+.panel {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px #00000008;
+}
+
+.cart-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-item button {
+    border: none;
+    padding: 7px 12px;
+    border-radius: 6px;
+    background: #e5f3e8;
+}
+
+footer {
+    text-align: center;
+    background: #104b30;
+    color: white;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+#detailBox {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.product-emoji {
+    font-size: 85px;
+}
+
+@media(max-width:900px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media(max-width:600px) {
+    main {
+        padding: 12px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+
+    .hero h2 {
+        font-size: 27px;
+    }
+
+    .product-image {
+        height: 100px;
+        font-size: 45px;
+    }
+
+    .card-content {
+        padding: 9px;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+
+    nav button {
+        padding: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌾 GramSmart</h1>
+    <p>गाँव का अपना बाज़ार | स्थानीय उत्पादों की ऑनलाइन दुकान</p>
+</header>
+
+<nav>
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('products')">🛍️ Products</button>
+    <button onclick="showPage('cart')">🛒 Cart (<span id="cartCount">0</span>)</button>
+    <button onclick="showPage('seller')">🌱 Sell Products</button>
+    <button onclick="showPage('orders')">📦 Orders</button>
+    <button onclick="showPage('about')">ℹ️ About</button>
+    <button onclick="showPage('help')">🤖 Help</button>
+</nav>
+
+<main>
+
+<!-- HOME PAGE -->
+<section id="home" class="page active">
+
+    <div class="hero">
+        <h2>गाँव की मेहनत, आपकी पसंद ❤️</h2>
+        <p>
+            स्थानीय किसानों और कारीगरों के उत्पाद खरीदें।
+            अपने गाँव के छोटे कारोबारों को आगे बढ़ाएँ।
+        </p>
+        <button class="primary" onclick="showPage('products')">
+            अभी खरीदारी करें →
+        </button>
+    </div>
+
+    <h2>हमारे उत्पाद</h2>
+    <p id="productTotal"></p>
+
+    <div class="grid" id="homeProducts"></div>
+
+</section>
+
+<!-- PRODUCTS PAGE -->
+<section id="products" class="page">
+
+    <h2>🛍️ सभी उत्पाद</h2>
+
+    <div class="search">
+        <input
+            id="searchInput"
+            placeholder="उत्पाद खोजें..."
+            oninput="renderProducts()"
+        >
+    </div>
+
+    <div class="categories" id="categories"></div>
+
+    <div class="grid" id="productGrid"></div>
+
+</section>
+
+<!-- PRODUCT DETAILS PAGE -->
+<section id="details" class="page">
+    <button class="primary" onclick="showPage('products')">
+        ← वापस उत्पादों पर जाएँ
+    </button>
+    <div id="detailBox"></div>
+</section>
+
+<!-- CART PAGE -->
+<section id="cart" class="page">
+
+    <h2>🛒 आपका शॉपिंग कार्ट</h2>
+
+    <div class="panel" id="cartItems"></div>
+
+    <div class="panel">
+        <h3>कुल कीमत: <span id="totalPrice">₹0</span></h3>
+        <button class="primary" onclick="checkout()">
+            WhatsApp से ऑर्डर करें 💬
+        </button>
+    </div>
+
+</section>
+
+<!-- SELLER PAGE -->
+<section id="seller" class="page">
+
+    <h2>🌱 अपना उत्पाद बेचें</h2>
+
+    <div class="panel">
+        <form id="sellerForm">
+
+            <label>आपका नाम</label>
+            <input name="name" required>
+
+            <label>मोबाइल नंबर</label>
+            <input name="phone" required type="tel">
+
+            <label>गाँव का नाम</label>
+            <input name="village" required>
+
+            <label>उत्पाद का नाम</label>
+            <input name="product" required>
+
+            <label>उत्पाद की कीमत (₹)</label>
+            <input name="price" required type="number" min="1">
+
+            <label>उत्पाद की कैटेगरी</label>
+            <select name="category">
+                <option>खाद्य उत्पाद</option>
+                <option>कृषि उत्पाद</option>
+                <option>हस्तशिल्प</option>
+                <option>कपड़े और सजावट</option>
+                <option>अन्य</option>
+            </select>
+
+            <label>उत्पाद का विवरण</label>
+            <textarea name="description"></textarea>
+
+            <button class="primary" type="submit">
+                आवेदन सेव करें
+            </button>
+
+        </form>
+    </div>
+
+</section>
+
+<!-- ORDERS PAGE -->
+<section id="orders" class="page">
+
+    <h2>📦 ऑर्डर जानकारी</h2>
+
+    <div class="panel">
+        <h3>ऑर्डर कैसे करें?</h3>
+        <p>1. अपनी पसंद का उत्पाद चुनें।</p>
+        <p>2. उत्पाद को कार्ट में जोड़ें।</p>
+        <p>3. कार्ट में मात्रा और कीमत जाँचें।</p>
+        <p>4. WhatsApp से ऑर्डर करें।</p>
+        <p>5. विक्रेता से डिलीवरी की पुष्टि करें।</p>
+    </div>
+
+</section>
+
+<!-- ABOUT PAGE -->
+<section id="about" class="page">
+
+    <h2>ℹ️ GramSmart के बारे में</h2>
+
+    <div class="panel">
+        <h3>हमारा उद्देश्य</h3>
+        <p>
+            GramSmart एक ग्रामीण ई-कॉमर्स प्रोजेक्ट है।
+            इसका उद्देश्य स्थानीय किसानों, कारीगरों और
+            छोटे व्यवसायों के उत्पादों को डिजिटल बाज़ार देना है।
+        </p>
+
+        <h3>मुख्य सुविधाएँ</h3>
+        <p>✅ उत्पाद खोजें</p>
+        <p>✅ अलग-अलग कैटेगरी</p>
+        <p>✅ शॉपिंग कार्ट</p>
+        <p>✅ WhatsApp ऑर्डर</p>
+        <p>✅ विक्रेता आवेदन</p>
+    </div>
+
+</section>
+
+<!-- HELP PAGE -->
+<section id="help" class="page">
+
+    <h2>🤖 GramSmart सहायता</h2>
+
+    <div class="panel">
+        <p>आप क्या जानना चाहते हैं?</p>
+
+        <button class="primary" onclick="helpAnswer('order')">
+            ऑर्डर कैसे करें?
+        </button>
+
+        <button class="primary" onclick="helpAnswer('cart')">
+            कार्ट कैसे इस्तेमाल करें?
+        </button>
+
+        <button class="primary" onclick="helpAnswer('seller')">
+            उत्पाद कैसे बेचें?
+        </button>
+
+        <div id="helpAnswer" style="margin-top:20px"></div>
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    <h3>🌾 GramSmart</h3>
+    <p>गाँव का अपना बाज़ार</p>
+    <p>स्थानीय उत्पादों को बढ़ावा दें ❤️</p>
+</footer>
+
+<script>
+/* WhatsApp नंबर: अपना नंबर यहाँ डालें */
+const WHATSAPP_NUMBER = "7999709054";
+
+/* 48 PRODUCTS */
+const products = [
+["हस्तनिर्मित बांस की टोकरी","हस्तशिल्प",250,"🧺"],
+["शुद्ध शहद","खाद्य उत्पाद",350,"🍯"],
+["मिट्टी का घड़ा","हस्तशिल्प",180,"🏺"],
+["जैविक हल्दी","खाद्य उत्पाद",120,"🟡"],
+["जूट बैग","हस्तशिल्प",220,"👜"],
+["देसी घी","खाद्य उत्पाद",650,"🧈"],
+["लकड़ी की सजावट","हस्तशिल्प",300,"🪵"],
+["स्थानीय चावल","कृषि उत्पाद",90,"🍚"],
+["मिट्टी के दीये","हस्तशिल्प",150,"🪔"],
+["घर का बना अचार","खाद्य उत्पाद",180,"🫙"],
+["कपड़े का बैग","कपड़े और सजावट",200,"🎒"],
+["अरहर दाल","कृषि उत्पाद",140,"🫘"],
+["बांस का पेन स्टैंड","हस्तशिल्प",120,"✏️"],
+["घर का बना पापड़","खाद्य उत्पाद",100,"🥙"],
+["मिट्टी के कप","हस्तशिल्प",160,"☕"],
+["गुड़","खाद्य उत्पाद",80,"🍬"],
+["फूलों की माला","कपड़े और सजावट",130,"🌸"],
+["पारंपरिक मसाला","खाद्य उत्पाद",250,"🌶️"],
+["बांस की बोतल","हस्तशिल्प",280,"🍶"],
+["स्थानीय बाजरा","कृषि उत्पाद",75,"🌾"],
+["लकड़ी का खिलौना","हस्तशिल्प",190,"🧸"],
+["आंवला मुरब्बा","खाद्य उत्पाद",220,"🍈"],
+["दीवार कला","कपड़े और सजावट",450,"🖼️"],
+["सरसों का तेल","खाद्य उत्पाद",180,"🫗"],
+["हाथ से बुनी दरी","कपड़े और सजावट",700,"🧶"],
+["हस्तनिर्मित राखी","हस्तशिल्प",90,"🎀"],
+["मूंग दाल","कृषि उत्पाद",130,"🫘"],
+["बेसन","खाद्य उत्पाद",110,"🥣"],
+["हाथ से बनी मोमबत्ती","हस्तशिल्प",170,"🕯️"],
+["कपास का गमछा","कपड़े और सजावट",160,"🧣"],
+["बांस की चटाई","हस्तशिल्प",320,"🎍"],
+["सूखी लाल मिर्च","खाद्य उत्पाद",140,"🌶️"],
+["चना","कृषि उत्पाद",95,"🌱"],
+["मिट्टी की मूर्ति","हस्तशिल्प",240,"🗿"],
+["घर का बना सेव","खाद्य उत्पाद",120,"🍘"],
+["कपड़े की गुड़िया","हस्तशिल्प",210,"🪆"],
+["मक्का","कृषि उत्पाद",65,"🌽"],
+["पत्तल और दोना","हस्तशिल्प",100,"🍃"],
+["घर का बना जैम","खाद्य उत्पाद",190,"🍓"],
+["कढ़ाई वाला कुशन कवर","कपड़े और सजावट",350,"🪡"],
+["मूंगफली","कृषि उत्पाद",110,"🥜"],
+["बांस का लैंप","हस्तशिल्प",520,"💡"],
+["हर्बल साबुन","अन्य",95,"🧼"],
+["हस्तनिर्मित जर्नल","हस्तशिल्प",160,"📒"],
+["सूखे आँवले","खाद्य उत्पाद",150,"🥭"],
+["मिट्टी का प्लांटर","हस्तशिल्प",210,"🪴"],
+["हाथ से बुनी टोकरी","हस्तशिल्प",280,"🧺"],
+["मसूर दाल","कृषि उत्पाद",145,"🍲"]
+].map((p,i)=>({
+    id:i+1,
+    name:p[0],
+    category:p[1],
+    price:p[2],
+    emoji:p[3],
+    description:p[0]+" — गाँव के स्थानीय उत्पादकों का उत्पाद।"
+}));
+
+let cart = JSON.parse(localStorage.getItem("gramsmartCart") || "[]");
+let activeCategory = "सभी";
+
+function showPage(id) {
+    document.querySelectorAll(".page").forEach(p => {
+        p.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    if(id === "cart") renderCart();
+    if(id === "products") renderProducts();
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function money(value) {
+    return "₹" + Number(value).toLocaleString("en-IN");
+}
+
+function renderCard(p) {
+    return `
+    <div class="card">
+        <div class="product-image"
+             onclick="showDetails(${p.id})">${p.emoji}</div>
+        <div class="card-content">
+            <h3 onclick="showDetails(${p.id})">${p.name}</h3>
+            <small>${p.category}</small>
+            <p class="price">${money(p.price)}</p>
+            <button onclick="addToCart(${p.id})">
+                + कार्ट में जोड़ें
+            </button>
+        </div>
+    </div>`;
+}
+
+function renderProducts() {
+    const search = (
+        document.getElementById("searchInput")?.value || ""
+    ).toLowerCase();
+
+    const list = products.filter(p =>
+        (activeCategory === "सभी" ||
+         p.category === activeCategory) &&
+        p.name.toLowerCase().includes(search)
+    );
+
+    document.getElementById("productGrid").innerHTML =
+        list.length
+        ? list.map(renderCard).join("")
+        : "<p>कोई उत्पाद नहीं मिला।</p>";
+}
+
+function renderHome() {
+    document.getElementById("productTotal").textContent =
+        "कुल " + products.length + " उत्पाद उपलब्ध";
+
+    document.getElementById("homeProducts").innerHTML =
+        products.slice(0,8).map(renderCard).join("");
+}
+
+function renderCategories() {
+    const categories = ["सभी", ...new Set(products.map(p=>p.category))];
+
+    document.getElementById("categories").innerHTML =
+        categories.map(c=>`
+            <button onclick="setCategory('${c}')">${c}</button>
+        `).join("");
+}
+
+function setCategory(category) {
+    activeCategory = category;
+    showPage("products");
+    renderProducts();
+}
+
+function showDetails(id) {
+    const p = products.find(x=>x.id===id);
+
+    document.getElementById("detailBox").innerHTML = `
+        <div class="product-emoji">${p.emoji}</div>
+        <h2>${p.name}</h2>
+        <p>कैटेगरी: ${p.category}</p>
+        <h2 class="price">${money(p.price)}</h2>
+        <p>${p.description}</p>
+        <button class="primary" onclick="addToCart(${p.id})">
+            🛒 कार्ट में जोड़ें
+        </button>
+    `;
+
+    showPage("details");
+}
+
+function addToCart(id) {
+    const item = cart.find(x=>x.id===id);
+
+    if(item) {
+        item.qty++;
+    } else {
+        cart.push({id:id,qty:1});
+    }
+
+    saveCart();
+    alert("उत्पाद कार्ट में जोड़ दिया गया!");
+}
+
+function saveCart() {
+    localStorage.setItem("gramsmartCart",JSON.stringify(cart));
+
+    document.getElementById("cartCount").textContent =
+        cart.reduce((sum,item)=>sum+item.qty,0);
+}
+
+function renderCart() {
+    const box = document.getElementById("cartItems");
+
+    if(cart.length===0) {
+        box.innerHTML = "<h3>आपका कार्ट खाली है 🛒</h3>";
+        document.getElementById("totalPrice").textContent = "₹0";
+        return;
+    }
+
+    let total = 0;
+
+    box.innerHTML = cart.map(item=>{
+        const p = products.find(x=>x.id===item.id);
+        if(!p) return "";
+
+        total += p.price*item.qty;
+
+        return `
+        <div class="cart-item">
+            <div>
+                <strong>${p.emoji} ${p.name}</strong>
+                <p>${money(p.price)} × ${item.qty}</p>
+            </div>
+            <div>
+                <button onclick="changeQty(${p.id},-1)">−</button>
+                ${item.qty}
+                <button onclick="changeQty(${p.id},1)">+</button>
+                <button onclick="removeItem(${p.id})">हटाएँ</button>
+            </div>
+        </div>`;
+    }).join("");
+
+    document.getElementById("totalPrice").textContent = money(total);
+}
+
+function changeQty(id,change) {
+    const item = cart.find(x=>x.id===id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty<=0) {
+        cart = cart.filter(x=>x.id!==id);
+    }
+
+    saveCart();
+    renderCart();
+}
+
+function removeItem(id) {
+    cart = cart.filter(x=>x.id!==id);
+    saveCart();
+    renderCart();
+}
+
+function checkout() {
+    if(cart.length===0) {
+        alert("पहले कार्ट में उत्पाद जोड़ें।");
+        return;
+    }
+
+    const name = prompt("अपना नाम लिखें:");
+    if(!name) return;
+
+    const phone = prompt("अपना मोबाइल नंबर लिखें:");
+    if(!phone) return;
+
+    const address = prompt("डिलीवरी का पूरा पता लिखें:");
+    if(!address) return;
+
+    let total = 0;
+
+    const lines = cart.map(item=>{
+        const p = products.find(x=>x.id===item.id);
+        total += p.price*item.qty;
+        return `${p.name} x ${item.qty} = ${money(p.price*item.qty)}`;
+    });
+
+    const message =
+`नमस्ते! मुझे GramSmart से ऑर्डर करना है।
+
+${lines.join("\n")}
+
+कुल कीमत: ${money(total)}
+
+नाम: ${name}
+मोबाइल: ${phone}
+पता: ${address}`;
+
+    const url =
+        "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+
+    window.open(url,"_blank");
+}
+
+document.getElementById("sellerForm").addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const data = Object.fromEntries(new FormData(this).entries());
+
+    const saved = JSON.parse(
+        localStorage.getItem("gramsmartSellers") || "[]"
+    );
+
+    saved.push(data);
+
+    localStorage.setItem("gramsmartSellers",JSON.stringify(saved));
+
+    alert("विक्रेता आवेदन इस ब्राउज़र में सेव हो गया!");
+
+    this.reset();
+});
+
+function helpAnswer(type) {
+    const answers = {
+        order:"उत्पाद चुनें, कार्ट में जोड़ें और WhatsApp से ऑर्डर करें।",
+        cart:"ऊपर Cart पर क्लिक करके मात्रा बदलें या उत्पाद हटाएँ।",
+        seller:"Sell Products पेज खोलें और विक्रेता फॉर्म भरें।"
+    };
+
+    document.getElementById("helpAnswer").innerHTML =
+        "<div class='panel'>" + answers[type] + "</div>";
+}
+
+renderHome();
+renderCategories();
+renderProducts();
+saveCart();
+</script>
+
+</body>
+</html>
